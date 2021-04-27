@@ -1,15 +1,31 @@
-<!DOCTYPE html>
-
 <html>
-	<head>
-		<title>Super ENTI Chat v0.9999</title>
-	</head>
-	<body>
-		<div>
-			<form>
-				<p><input type="text" name ="msg" id="msg"/>
-				<button>Envia</button></p>
-			</form>
-		</div>
-	</body>
+<head>
+<title>Super ENTI Chat v0.9999</title>
+</head>
+<body>
+<div>
+<form>
+<p><input type="text"name="user" id="user" placeholder="Nombre de usuario" />
+<input type="text" name ="msg" id="msg" placeholder="Mensaje placeholder="Mensaje"" />
+<button>Envia</button></p>
+</form>
+</div>
+<script>
+const refresh_time = 2000;
+
+setInterval(() => {
+   fetch("/chat")
+	.then( (response) => response.json() )
+	.then( (data) => {
+	 let lista = '';
+		for (let i = 0; i < data.length; i++){
+			lista += "<li>"+data[i].user+": "+data[i].msg+"</li>;
+		
+		}
+		document.getElementById("chat").innerHTML = "<ul>"+lista+"<ul>";
+	});
+
+}, refresh_time);
+</script>
+</body>
 </html>
