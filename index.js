@@ -27,9 +27,14 @@ let public_files = new node_static.Server("pub");
 
 http.createServer( (request, response) => {
 	
-	if (request.url == "/chat"){
+	if (request.url.startaWith == "/chat"){
 		//console.log("Entrando en el chat");
-	let cursor = chat_db.collection("chat").find({});
+	let info = request.url.split("=");
+		console.log(info[1]);
+	let query = {
+		date = { $gt : parseInt(info[1])}	
+	};
+	let cursor = chat_db.collection("chat").find({query});
 
 		cursor.toArray().then( (data) => {
 			//console.log(data);
@@ -42,7 +47,6 @@ http.createServer( (request, response) => {
 
 		return;
 	}
-
 	
 	if (request.url == "/recent"){
 
