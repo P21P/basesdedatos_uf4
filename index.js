@@ -42,6 +42,21 @@ http.createServer( (request, response) => {
 
 		return;
 	}
+
+	
+	if (request.url == "/recent"){
+
+		let cursor = chat_db.collection("chat").find({},{limit:5, sort:{$natural:-1}});
+			cursor.toArray().then( (data) => {
+				response.writeHead(200, {'Content-Type':'text/plain'});
+				response.write (JSON,stringfy(data) );
+				response.emd();
+			});
+		return;
+	}
+	
+
+	
 	if (request.url == "/submit"){
 		console.log("Envio de datos");
 		
@@ -62,6 +77,8 @@ http.createServer( (request, response) => {
 		
 		return;
 	}
+
+
 	
 	public_files.serve(request, response);
 	
